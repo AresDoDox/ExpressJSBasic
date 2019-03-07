@@ -1,6 +1,7 @@
 var express = require('express');
 
 var controllers = require('../controllers/user.controller');
+var validate = require('../validate/user.validate');
 
 var router = express.Router();
 
@@ -12,7 +13,7 @@ router.get('/search', controllers.search);
 //Method POST
 router.get('/create', controllers.create);
 
-router.post('/create', controllers.postCreate);
+router.post('/create', validate.postCreate, controllers.postCreate);
 
 //User id
 router.get('/:id', controllers.get);

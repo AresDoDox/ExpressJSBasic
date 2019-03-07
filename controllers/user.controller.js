@@ -27,10 +27,10 @@ module.exports.create =function(req,res){
 }
 
 module.exports.postCreate =function(req,res){
-    // console.log(req.body);
-    req.body.id = shortid.generate();
+    req.body.id = shortid.generate(); //Hàm trả về giá trị id ngẫu nhiên
+    console.log(res.locals)
     db.get('users').push(req.body).write(); // 
-    res.redirect(''); //Điều hướng sang url khác
+    res.redirect('/users'); //Điều hướng sang url khác
 }
 
 module.exports.get =function(req,res){
