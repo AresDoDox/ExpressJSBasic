@@ -7,6 +7,11 @@ var router = express.Router();
 
 router.get('/', controllers.index);
 
+router.get('/cookie', function(req,res,next){
+    res.cookie('name','DoDox');
+    res.send('Set Cookie');
+} )
+
 //Tìm kiếm
 router.get('/search', controllers.search);
 
