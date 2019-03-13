@@ -3,9 +3,13 @@ var express = require('express');
 var controllers = require('../controllers/user.controller');
 var validate = require('../validate/user.validate');
 
+// Khai báo Middleware
+var middlewareAuth = require('../middlewares/auth.middleware');
+
 var router = express.Router();
 
-router.get('/', controllers.index);
+
+router.get('/', middlewareAuth.requireAuth, controllers.index); //Route chứa middleware
 
 router.get('/cookie', function(req,res,next){
     res.cookie('name','DoDox');

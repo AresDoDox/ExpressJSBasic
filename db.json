@@ -2,36 +2,10 @@
   "users": [
     {
       "name": "DoDox",
-      "id": "AyTUV83WW"
-    },
-    {
-      "name": "KillLove",
-      "id": "osIOOFPgk"
-    },
-    {
-      "name": "CaoLauMy",
-      "phone": "123456789",
-      "id": "5b8sxe5Gb"
-    },
-    {
-      "name": "CaoLauMy",
-      "phone": "123456789",
-      "id": "HGvTNkXY2"
-    },
-    {
-      "name": "CaoLauMy",
-      "phone": "123456789",
-      "id": "QQuGnyuv0"
-    },
-    {
-      "name": "DoDox",
-      "phone": "123123123",
-      "id": "E-aD_JDt4"
-    },
-    {
-      "name": "CaoLauMy",
-      "phone": "123123123",
-      "id": "zrdqvvX9M"
+      "phone": "0793581886",
+      "id": "RKRPeKr39",
+      "email": "luyn14@gmail.com",
+      "password": "123456"
     }
   ]
 }
