@@ -1,3 +1,5 @@
+var md5 = require('md5');
+
 //Lấy dữ liệu và render
 var db = require('../db');
 
@@ -17,7 +19,8 @@ module.exports.postLogin =  function(req, res){
         return; /// trả về user
     }
 
-    if(user.password !== password){
+    var hasdedPassword = md5(password);
+    if(user.password !== hasdedPassword){
         console.log(user.password);
         console.log(password);
         res.render('auth/login',{
@@ -27,6 +30,6 @@ module.exports.postLogin =  function(req, res){
         return;
     }
 
-    res.cookie('userId', user.id);
+    res.cookie('userId', user.id, {signed: true});
     res.redirect('/users');
 };
