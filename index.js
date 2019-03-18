@@ -7,12 +7,13 @@ var cookieParser = require('cookie-parser');
 // Khai báo route
 var userRoute = require('./routes/user.route');
 var authRoute = require('./routes/auth.route');
+var productRoute = require('./routes/product.route');
 
 // Khai báo Middleware
 var middlewareAuth = require('./middlewares/auth.middleware');
 
 var app = express();
-var port = 3000;
+var port = 1494;
 
 app.set('view engine', 'pug');
 app.set('views', './views');
@@ -37,7 +38,9 @@ app.get('/',function(req, res){
     });
 });
 
+
 app.use('/users', middlewareAuth.requireAuth, userRoute);
+app.use('/products', productRoute);
 app.use('/auth', authRoute);
 
 app.listen(port, function(){
