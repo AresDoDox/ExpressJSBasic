@@ -1,7 +1,10 @@
 var express = require('express');
+var multer  = require('multer');
 
 var controllers = require('../controllers/user.controller');
 var validate = require('../validate/user.validate');
+
+var upload = multer({ dest: './public/uploads/' }); //Tạo object để upload file, sử dụng thư viện multer
 
 // Khai báo Middleware
 var middlewareAuth = require('../middlewares/auth.middleware');
@@ -22,7 +25,11 @@ router.get('/search', controllers.search);
 //Method POST
 router.get('/create', controllers.create);
 
-router.post('/create', validate.postCreate, controllers.postCreate);
+router.post('/create',
+    upload.single('avatar'),
+    validate.postCreate, 
+    controllers.postCreate
+);
 
 //User id
 router.get('/:id', controllers.get);

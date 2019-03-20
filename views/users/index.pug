@@ -11,11 +11,17 @@ block content
     table.table
         tr
             th Name
+            th Avatar
             th Phone
             th Actions
         each user in users
             tr
                 td= user.name
+                td
+                    if(user.avatar)
+                        img(src=user.avatar, width="32")
+                    else
+                        img(src="uploads/img-default.png", width="32")
                 td= user.phone
                 td 
                     a.btn.btn-light(href="/users/" + user.id) View

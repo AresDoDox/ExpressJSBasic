@@ -29,7 +29,7 @@ module.exports.create =function(req,res){
 
 module.exports.postCreate =function(req,res){
     req.body.id = shortid.generate(); //Hàm trả về giá trị id ngẫu nhiên
-    console.log(res.locals)
+    req.body.avatar = req.file.path.split('/').slice(1).join('/'); // Lưu link lưu trữ file
     db.get('users').push(req.body).write(); // 
     res.redirect('/users'); //Điều hướng sang url khác
 }
