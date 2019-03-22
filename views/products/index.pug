@@ -15,8 +15,9 @@ block content
                     .card-body
                         h5.card-title=product.name
                         p.card-text=product.description
-                        a.btn.btn-primary(href="#") Add to card
-    nav(aria-label='...')
+                        a.btn.btn-primary(href="/cart/add/" + product.id) Add to card
+    if (countPage>1)
+        nav(aria-label='...')
         //- Previous
         ul.pagination.justify-content-center
             li.page-item(class=page>1 ? "" : "disabled")

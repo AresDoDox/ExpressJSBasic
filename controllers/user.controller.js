@@ -2,6 +2,8 @@
 const shortid = require('shortid');
 var db = require('../db');
 
+var md5 = require('md5');
+
 module.exports.index = function(req, res){
     res.render('users/index', {
         users: db.get('users').value()
@@ -15,6 +17,7 @@ module.exports.search = function(req, res) {
     });
     // toLowerString() Chuyển chuỗi hiện tại thành chuỗi chữ thường
     // indexOf(q) Kiểm tra trong chuổi tồn tại biến q không (không tồn tại trả về giá trị -1)
+    
     res.render('users/index', {
         users: matchedUsers
     });
@@ -30,6 +33,7 @@ module.exports.create =function(req,res){
 module.exports.postCreate =function(req,res){
     req.body.id = shortid.generate(); //Hàm trả về giá trị id ngẫu nhiên
     req.body.avatar = req.file.path.split('/').slice(1).join('/'); // Lưu link lưu trữ file
+    req.body.password = md5(req.body.password);
     db.get('users').push(req.body).write(); // 
     res.redirect('/users'); //Điều hướng sang url khác
 }

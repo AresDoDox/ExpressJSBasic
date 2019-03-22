@@ -12,3 +12,16 @@ module.exports.index = function(req, res){
         countPage: countPage
     });
 };
+
+module.exports.search = function(req, res){
+    var q = req.query.q;
+    var matchedProducts = db.get('products').value().filter(function(product){
+        if((product.name.toLowerCase().indexOf(q.toLowerCase()) !== -1) ||
+            (product.description.toLowerCase().indexOf(q.toLowerCase()) !== -1)){
+            return product;
+        }
+    });
+    res.render('products/index', {
+        products: matchedProducts
+    });
+}
