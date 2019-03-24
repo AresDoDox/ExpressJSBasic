@@ -19,4 +19,6 @@ module.exports.addToCart = function(req, res, next){
         .set('cart.' + productId, count + 1)
         .write();
     res.redirect('/products');
+
+    
 }
