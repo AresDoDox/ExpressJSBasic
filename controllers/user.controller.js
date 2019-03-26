@@ -1,18 +1,20 @@
 //Lấy dữ liệu và render
-const shortid = require('shortid');
-var db = require('../db');
+// const shortid = require('shortid');
+var User = require('../models/product.model');
 
 var md5 = require('md5');
 
-module.exports.index = function(req, res){
+module.exports.index = async function(req, res){
+    var users = await User.find();
     res.render('users/index', {
-        users: db.get('users').value()
+        users: users
     });
 };
 
-module.exports.search = function(req, res) {
+module.exports.search = async function(req, res) {
+    var users = await User.find();
     var q = req.query.q;
-    var matchedUsers = db.get('users').value().filter(function(user){
+    var matchedUsers = users.filter(function(user){
         return user.name.toLowerCase().indexOf(q.toLowerCase()) !== -1;
     });
     // toLowerString() Chuyển chuỗi hiện tại thành chuỗi chữ thường
@@ -25,23 +27,25 @@ module.exports.search = function(req, res) {
     // res.send('abc');
 }
 
-module.exports.create =function(req,res){
-    console.log(req.cookies);
-    res.render('users/create');
+module.exports.create = function(req, res ,next){
+    res.render('users/create',{
+        csrfToken: req.csrfToken()
+    });
 }
 
-module.exports.postCreate =function(req,res){
-    req.body.id = shortid.generate(); //Hàm trả về giá trị id ngẫu nhiên
+module.exports.postCreate = async function(req,res){
+    var users = await User.find();
+    // req.body.id = shortid.generate(); //Hàm trả về giá trị id ngẫu nhiên
     req.body.avatar = req.file.path.split('/').slice(1).join('/'); // Lưu link lưu trữ file
     req.body.password = md5(req.body.password);
-    db.get('users').push(req.body).write(); // 
+    users.push(req.body).write(); // 
     res.redirect('/users'); //Điều hướng sang url khác
 }
 
-module.exports.get =function(req,res){
+module.exports.get = async function(req,res){
     var id = req.params.id.toString();
-    var user = db.get('users').find({id: id}).value(); // Lấy giá trị phần tử user theo id từ data
+    var user = await User.findById(id); // Lấy giá trị phần tử user theo id từ data
     res.render('users/view', {
-        user:user
+        user : user
     });
 }

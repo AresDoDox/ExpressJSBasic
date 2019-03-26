@@ -3,12 +3,18 @@ require('dotenv').config();
 var express = require('express');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
+var csurf = require('csurf');
+var mongoose = require('mongoose');
+
+//connect mongo
+mongoose.connect(process.env.MONGO_URL);
 
 // Khai báo route
 var userRoute = require('./routes/user.route');
 var authRoute = require('./routes/auth.route');
 var productRoute = require('./routes/product.route');
 var cartRoute = require('./routes/cart.route');
+var transferRoute = require('./routes/transfer.router');
 
 // Khai báo Middleware
 var middlewareAuth = require('./middlewares/auth.middleware');
@@ -24,6 +30,7 @@ app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 app.use(cookieParser(process.env.SESSION_SECRET));
 app.use(middlewareSession); //Ảnh hưởng đến tất cả
+app.use(csurf({ cookie: true }));
 
 
 // Data
@@ -46,6 +53,7 @@ app.use('/users', middlewareAuth.requireAuth, userRoute);
 app.use('/products', productRoute);
 app.use('/auth', authRoute);
 app.use('/cart', cartRoute);
+app.use('/transfer', middlewareAuth.requireAuth, transferRoute);
 
 app.listen(port, function(){
     console.log('Server listening on port ' + port);
