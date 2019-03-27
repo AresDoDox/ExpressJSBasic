@@ -14,7 +14,9 @@ var userRoute = require('./routes/user.route');
 var authRoute = require('./routes/auth.route');
 var productRoute = require('./routes/product.route');
 var cartRoute = require('./routes/cart.route');
-var transferRoute = require('./routes/transfer.router');
+var transferRoute = require('./routes/transfer.route');
+
+var productApiRoute = require('./api/routes/products.route');
 
 // Khai báo Middleware
 var middlewareAuth = require('./middlewares/auth.middleware');
@@ -30,7 +32,7 @@ app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 app.use(cookieParser(process.env.SESSION_SECRET));
 app.use(middlewareSession); //Ảnh hưởng đến tất cả
-app.use(csurf({ cookie: true }));
+// app.use(csurf({ cookie: true }));
 
 
 // Data
@@ -47,6 +49,9 @@ app.get('/',function(req, res){
         name: 'DoDox'
     });
 });
+
+//Api
+app.use('/api/products', productApiRoute);
 
 
 app.use('/users', middlewareAuth.requireAuth, userRoute);

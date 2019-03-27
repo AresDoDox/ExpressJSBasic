@@ -1,16 +1,17 @@
 var md5 = require('md5');
 
 //Lấy dữ liệu và render
-var db = require('../db');
+var User = require('../models/user.model');
 
 module.exports.login = function(req, res){
     res.render('auth/login');
 };
 
-module.exports.postLogin =  function(req, res){
+module.exports.postLogin = async function(req, res){
     var email = req.body.email;
     var password = req.body.password;
-    var user = db.get('users').find({ email: email}).value();
+    var user = await User.findOne({email : email});
+    
     if(!user){
         res.render('auth/login',{
             errors: ['User does not exist.'],
@@ -21,8 +22,6 @@ module.exports.postLogin =  function(req, res){
 
     var hasdedPassword = md5(password);
     if(user.password !== hasdedPassword){
-        console.log(user.password);
-        console.log(password);
         res.render('auth/login',{
             errors: ['Wrong password!'],
             values: req.body

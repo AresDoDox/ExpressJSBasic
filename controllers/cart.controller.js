@@ -1,4 +1,4 @@
-var db = require('../db');
+var Session = require('../models/session.model');
 
 module.exports.addToCart = function(req, res, next){
     var productId = req.params.productId;
@@ -9,13 +9,10 @@ module.exports.addToCart = function(req, res, next){
         return;
     }
 
-    var count = db
-        .get('sessions')
-        .find({id: sessionId})
+    var count = Session.findById(sessionId)
         .get('cart.' + productId, 0);
 
-    db.get('sessions')
-        .find({id: sessionId})
+    Session.findById(sessionId)
         .set('cart.' + productId, count + 1)
         .write();
     res.redirect('/products');

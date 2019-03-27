@@ -2,8 +2,8 @@ extends ../layouts/common
 block content
     h1 Transfer
 
-    form(method="POST")
-        input(type="hidden", name="_csrf", value=csrfToken)
+    form(action="/transfer/create", method="POST")
+        //- input( type="hidden", name="_csrf", value=csrfToken)
         .form-group
             label(for="account") Account: 
             input(type="text", name="accountId" , id="account", class="form-control")

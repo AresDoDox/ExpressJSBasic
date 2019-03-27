@@ -1,6 +1,6 @@
 //Lấy dữ liệu và render
 // const shortid = require('shortid');
-var User = require('../models/product.model');
+var User = require('../models/user.model');
 
 var md5 = require('md5');
 
@@ -23,22 +23,17 @@ module.exports.search = async function(req, res) {
     res.render('users/index', {
         users: matchedUsers
     });
-    // console.log(req.query);
-    // res.send('abc');
 }
 
 module.exports.create = function(req, res ,next){
-    res.render('users/create',{
-        csrfToken: req.csrfToken()
-    });
+    res.render('users/create');
 }
 
 module.exports.postCreate = async function(req,res){
-    var users = await User.find();
     // req.body.id = shortid.generate(); //Hàm trả về giá trị id ngẫu nhiên
     req.body.avatar = req.file.path.split('/').slice(1).join('/'); // Lưu link lưu trữ file
     req.body.password = md5(req.body.password);
-    users.push(req.body).write(); // 
+    User.insertMany([req.body]) //Push dữ liệu và database
     res.redirect('/users'); //Điều hướng sang url khác
 }
 
